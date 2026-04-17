@@ -127,15 +127,21 @@
         let allMembers = [];
         let isDeleting = false;
 
-        // HELPER FUNCTION TO FORMAT DATE TO MM-DD-YYYY
+        /**
+         * UPDATED: Formats any date string into MM-DD-YYYY
+         */
         function formatDate(dateString) {
             if (!dateString || dateString === '---') return '---';
             const date = new Date(dateString);
-            if (isNaN(date.getTime())) return dateString; // Return original if not a valid date
             
+            // If the date is invalid, just return what was sent
+            if (isNaN(date.getTime())) return dateString; 
+            
+            // Get parts and pad with zero if needed
             const mm = String(date.getMonth() + 1).padStart(2, '0');
             const dd = String(date.getDate()).padStart(2, '0');
             const yyyy = date.getFullYear();
+            
             return `${mm}-${dd}-${yyyy}`;
         }
 
@@ -184,7 +190,7 @@
                 const fbUrl = (m.facebook && m.facebook !== '---') ? (m.facebook.startsWith('http') ? m.facebook : `https://facebook.com/${m.facebook}`) : null;
                 const fbDisplay = fbUrl ? `<a href="${fbUrl}" target="_blank" class="text-blue-600 font-medium hover:underline">View FB</a>` : '<span class="text-slate-400 text-xs italic">None</span>';
                 
-                // APPLY DATE FORMATTING HERE
+                // Format the birthDate to MM-DD-YYYY
                 const displayBirth = formatDate(m.birthDate);
 
                 const row = `
@@ -199,7 +205,7 @@
                             <div class="text-[9px] text-slate-400 uppercase font-bold">${m.sex || '---'} | ${m.civilStatus || 'Single'}</div>
                         </td>
                         <td class="px-4 py-4">
-                            <div class="text-slate-600 text-[11px]">${displayBirth}</div>
+                            <div class="text-slate-600 text-[11px] font-mono">${displayBirth}</div>
                             <span class="text-[9px] font-bold px-2 py-0.5 bg-indigo-100 text-indigo-700 rounded-full">${m.age || '0'} YRS</span>
                         </td>
                         <td class="px-4 py-4">
