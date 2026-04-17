@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Member Registration - KKDAT ILOCANDIA INCORPORATED</title>
-    <link rel="icon" type="image/png" href="CURRIMAO.PNG">
+    <link rel="icon" type="image/png" href="LOGO.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -32,7 +32,6 @@
         .fade-in { animation: fadeIn 0.5s ease-in; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Passcode Overlay Styles */
         #passcodeOverlay {
             position: fixed;
             inset: 0;
@@ -45,7 +44,6 @@
             padding: 1rem;
         }
 
-        /* Review Modal Styles */
         #reviewModal {
             position: fixed;
             inset: 0;
@@ -64,8 +62,7 @@
     <div id="reviewModal">
         <div class="glass-panel p-6 sm:p-8 rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <h2 class="text-2xl font-bold text-slate-800 mb-4 border-b pb-4">Review Your Information</h2>
-            <div id="reviewContent" class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm mb-8">
-                </div>
+            <div id="reviewContent" class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm mb-8"></div>
             <div class="flex flex-col sm:flex-row gap-3">
                 <button onclick="closeReview()" class="flex-1 py-3 bg-slate-200 text-slate-700 rounded-xl font-bold hover:bg-slate-300 transition-all">Edit Details</button>
                 <button onclick="confirmSubmission()" class="flex-1 py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 shadow-lg transition-all">Confirm & Submit</button>
@@ -95,10 +92,10 @@
                     <div class="w-10 h-10 sm:w-11 sm:h-11 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center shadow-xl border border-white/20 overflow-hidden p-1">
                         <img src="CURRIMAO.PNG" alt="Logo" class="w-full h-full object-cover rounded-full">
                     </div>
-                    <span class="text-white font-bold text-sm sm:text-lg tracking-tight truncate">KKDAT II Currimao</span>
+                    <span class="text-white font-bold text-sm sm:text-lg tracking-tight truncate">KKDAT Ilocandia Inc</span>
                 </div>
                 <div class="flex gap-2 sm:gap-4">
-                    <a href="REGFORM.html" class="text-white bg-white/20 px-3 py-2 rounded-lg text-xs sm:text-sm font-medium hover:bg-white/30 transition-all">Register</a>
+                    <a href="index.html" class="text-white bg-white/20 px-3 py-2 rounded-lg text-xs sm:text-sm font-medium hover:bg-white/30 transition-all">Register</a>
                     <a href="SOCIAL HUB.html" class="text-white/70 hover:text-white px-3 py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors">Socmed Hub</a>
                 </div>
             </div>
@@ -115,9 +112,23 @@
 
             <div class="glass-panel rounded-3xl shadow-2xl p-6 sm:p-10 fade-in">
                 <form id="registrationForm" class="space-y-6 sm:space-y-8">
+                    
                     <div class="bg-slate-50/50 rounded-2xl p-4 sm:p-6 border border-slate-100">
                         <h2 class="text-lg sm:text-xl font-semibold text-slate-800 mb-6 flex items-center">
-                            <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center mr-3 text-xs sm:text-sm">1</span>
+                            <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-orange-600 text-white flex items-center justify-center mr-3 text-xs sm:text-sm">1</span>
+                            Organizational Details
+                        </h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Chapter *</label>
+                                <input type="text" id="chapter" required class="input-field w-full px-4 py-3 rounded-xl" placeholder="e.g. Currimao Chapter">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50/50 rounded-2xl p-4 sm:p-6 border border-slate-100">
+                        <h2 class="text-lg sm:text-xl font-semibold text-slate-800 mb-6 flex items-center">
+                            <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center mr-3 text-xs sm:text-sm">2</span>
                             Personal Information
                         </h2>
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
@@ -155,7 +166,7 @@
 
                     <div class="bg-slate-50/50 rounded-2xl p-4 sm:p-6 border border-slate-100">
                         <h2 class="text-lg sm:text-xl font-semibold text-slate-800 mb-6 flex items-center">
-                            <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-purple-600 text-white flex items-center justify-center mr-3 text-xs sm:text-sm">2</span>
+                            <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-purple-600 text-white flex items-center justify-center mr-3 text-xs sm:text-sm">3</span>
                             Contact & Address
                         </h2>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
@@ -184,12 +195,11 @@
 
                     <div class="bg-slate-50/50 rounded-2xl p-4 sm:p-6 border border-slate-100">
                         <h2 class="text-lg sm:text-xl font-semibold text-slate-800 mb-4 flex items-center">
-                            <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center mr-3 text-xs sm:text-sm">3</span>
+                            <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center mr-3 text-xs sm:text-sm">4</span>
                             Data Privacy Consent
                         </h2>
                         <div class="text-sm text-slate-600 space-y-3 mb-6 bg-white/50 p-4 rounded-xl border border-slate-200">
                             <p>In compliance with the <strong>Data Privacy Act of 2012</strong>, by clicking "Register Member", I hereby authorize KKDAT II Currimao to collect, process, and store my personal information for the purpose of membership records and official organizational activities.</p>
-                            <p>I understand that my information will be handled with strict confidentiality and will not be shared with third parties without my explicit consent.</p>
                         </div>
                         <div class="flex items-start gap-3">
                             <input type="checkbox" id="privacyConsent" required class="mt-1 w-5 h-5 rounded border-slate-300 text-indigo-600 cursor-pointer">
@@ -210,7 +220,6 @@
     </div>
 
     <script>
-        // --- NEW REVIEW FEATURE LOGIC ---
         function openReview() {
             const form = document.getElementById('registrationForm');
             if(!form.checkValidity()) {
@@ -219,6 +228,7 @@
             }
 
             const fields = [
+                { label: 'Chapter', id: 'chapter' }, // Added to review
                 { label: 'Full Name', id: 'fullName' },
                 { label: 'Sex', id: 'sex' },
                 { label: 'Birthday', id: 'birthDate' },
@@ -254,13 +264,12 @@
             document.getElementById('submitBtn').click();
         }
 
-        // Passcode Integration Logic
         function getDailyPasscode() {
             const now = new Date();
             const year = now.getFullYear();
             const month = (now.getMonth() + 1).toString().padStart(2, '0');
             const day = now.getDate().toString().padStart(2, '0');
-            return month + day + year; // MMDDYYYY
+            return month + day + year; 
         }
 
         function checkPasscode() {
@@ -282,7 +291,6 @@
             if (e.key === 'Enter') checkPasscode();
         });
 
-        // Original Registration Logic
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbymx5klDjX_yTn59_VVzE1nOA8dEHUlFPfQD3FfJDR1ZRp62k0Wx-_2Ph-4zLTYCho5/exec";
 
         document.getElementById('birthDate').addEventListener('change', (e) => {
@@ -302,6 +310,7 @@
             visualBtn.innerText = "Registering...";
 
             const memberData = {
+                chapter: document.getElementById('chapter').value, // Added to data object
                 fullName: document.getElementById('fullName').value,
                 sex: document.getElementById('sex').value,
                 birthDate: document.getElementById('birthDate').value,
