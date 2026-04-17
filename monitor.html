@@ -79,14 +79,24 @@
                 <p class="text-indigo-200 text-xs sm:text-sm">Official Records - Synchronized with KKDAT database</p>
             </div>
             
-            <div class="flex items-center gap-3 w-full md:w-auto no-print">
+            <div class="flex flex-wrap items-center gap-3 w-full md:w-auto no-print">
                 <div class="bg-white/10 border border-white/20 rounded-xl px-4 py-2 sm:py-3 flex flex-col justify-center min-w-[100px] shadow-lg">
                     <span class="text-[10px] text-indigo-300 uppercase font-bold leading-none">Total Members</span>
                     <span id="memberCount" class="text-white text-lg font-bold">0</span>
                 </div>
 
-                <div class="relative w-full md:w-80">
-                    <input type="text" id="searchInput" placeholder="Search by name, address, or chapter..." 
+                <div class="relative">
+                    <select id="chapterFilter" onchange="filterTable()" 
+                        class="appearance-none bg-white/10 border border-white/20 rounded-xl px-4 py-2 sm:py-3 text-white text-xs font-bold uppercase tracking-wide outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer shadow-lg pr-10">
+                        <option value="ALL" class="bg-slate-800 text-white">All Chapters</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-indigo-300">
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/></svg>
+                    </div>
+                </div>
+
+                <div class="relative w-full md:w-72 lg:w-80">
+                    <input type="text" id="searchInput" placeholder="Search name or address..." 
                         class="pl-10 pr-4 py-2 sm:py-3 rounded-xl w-full outline-none border-none shadow-xl focus:ring-2 focus:ring-indigo-500 transition-all text-sm" 
                         onkeyup="filterTable()">
                     <span class="absolute left-3 top-2.5 sm:top-3.5 text-slate-400">
@@ -127,17 +137,33 @@
         let allMembers = [];
         let isDeleting = false;
 
-        // NEW FUNCTION: Force YYYY-MM-DD format
         function formatDateToISO(dateString) {
             if (!dateString || dateString === '---') return '---';
             const date = new Date(dateString);
-            if (isNaN(date.getTime())) return dateString; // Return original if invalid
-            
+            if (isNaN(date.getTime())) return dateString;
             const yyyy = date.getFullYear();
             const mm = String(date.getMonth() + 1).padStart(2, '0');
             const dd = String(date.getDate()).padStart(2, '0');
-            
             return `${yyyy}-${mm}-${dd}`;
+        }
+
+        // NEW: Populate the Chapter Filter dropdown dynamically
+        function updateChapterFilterOptions(data) {
+            const select = document.getElementById('chapterFilter');
+            const currentValue = select.value;
+            const chapters = [...new Set(data.map(m => (m.chapter || 'UNASSIGNED').toUpperCase()))].sort();
+            
+            select.innerHTML = '<option value="ALL" class="bg-slate-800 text-white">All Chapters</option>';
+            chapters.forEach(ch => {
+                const opt = document.createElement('option');
+                opt.value = ch;
+                opt.textContent = ch;
+                opt.className = "bg-slate-800 text-white";
+                select.appendChild(opt);
+            });
+            
+            // Retain selection if it still exists
+            if (chapters.includes(currentValue)) select.value = currentValue;
         }
 
         function checkInitialAccess() {
@@ -150,7 +176,6 @@
         function validateAccess() {
             const entry = document.getElementById('passcodeInput').value;
             const errorElement = document.getElementById('errorMsg');
-            
             if (AUTHORIZED_PASSCODES.includes(entry)) {
                 sessionStorage.setItem('isAuthorized', 'true');
                 document.getElementById('loginModal').classList.add('hidden');
@@ -166,8 +191,8 @@
             try {
                 const response = await fetch(SCRIPT_URL);
                 allMembers = await response.json();
-                const query = document.getElementById('searchInput').value;
-                if (!query) renderTable(allMembers);
+                updateChapterFilterOptions(allMembers);
+                filterTable();
             } catch (error) { console.error("Fetch Error:", error); }
         }
 
@@ -184,8 +209,6 @@
             data.forEach(m => {
                 const fbUrl = (m.facebook && m.facebook !== '---') ? (m.facebook.startsWith('http') ? m.facebook : `https://facebook.com/${m.facebook}`) : null;
                 const fbDisplay = fbUrl ? `<a href="${fbUrl}" target="_blank" class="text-blue-600 font-medium hover:underline">View FB</a>` : '<span class="text-slate-400 text-xs italic">None</span>';
-
-                // Apply formatting to the display variable
                 const formattedBirth = formatDateToISO(m.birthDate);
 
                 const row = `
@@ -222,13 +245,21 @@
             });
         }
 
+        // UPDATED: Filter logic handles both Chapter selection and Search query
         function filterTable() {
             const query = document.getElementById('searchInput').value.toLowerCase();
-            const filtered = allMembers.filter(m => 
-                (m.fullName && m.fullName.toLowerCase().includes(query)) || 
-                (m.address && m.address.toLowerCase().includes(query)) ||
-                (m.chapter && m.chapter.toLowerCase().includes(query))
-            );
+            const chapter = document.getElementById('chapterFilter').value;
+
+            const filtered = allMembers.filter(m => {
+                const matchesSearch = (m.fullName && m.fullName.toLowerCase().includes(query)) || 
+                                     (m.address && m.address.toLowerCase().includes(query));
+                
+                const mChapter = (m.chapter || 'UNASSIGNED').toUpperCase();
+                const matchesChapter = (chapter === 'ALL' || mChapter === chapter);
+
+                return matchesSearch && matchesChapter;
+            });
+            
             renderTable(filtered);
         }
 
