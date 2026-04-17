@@ -54,7 +54,7 @@
         <div class="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
             <div class="flex items-center gap-2 sm:gap-3">
                 <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-white flex items-center justify-center shadow-lg overflow-hidden">
-                    <img src="CURRIMAO.PNG" alt="Logo" class="w-full h-full object-cover">
+                    <img src="LOGO.png" alt="Logo" class="w-full h-full object-cover">
                 </div>
                 <div class="flex flex-col">
                     <span class="text-white font-bold text-sm sm:text-lg truncate max-w-[120px] sm:max-w-none">KKDAT Ilocandia Inc Registry</span>
@@ -127,22 +127,17 @@
         let allMembers = [];
         let isDeleting = false;
 
-        /**
-         * UPDATED: Formats any date string into MM-DD-YYYY
-         */
-        function formatDate(dateString) {
+        // NEW FUNCTION: Force YYYY-MM-DD format
+        function formatDateToISO(dateString) {
             if (!dateString || dateString === '---') return '---';
             const date = new Date(dateString);
+            if (isNaN(date.getTime())) return dateString; // Return original if invalid
             
-            // If the date is invalid, just return what was sent
-            if (isNaN(date.getTime())) return dateString; 
-            
-            // Get parts and pad with zero if needed
+            const yyyy = date.getFullYear();
             const mm = String(date.getMonth() + 1).padStart(2, '0');
             const dd = String(date.getDate()).padStart(2, '0');
-            const yyyy = date.getFullYear();
             
-            return `${mm}-${dd}-${yyyy}`;
+            return `${yyyy}-${mm}-${dd}`;
         }
 
         function checkInitialAccess() {
@@ -189,9 +184,9 @@
             data.forEach(m => {
                 const fbUrl = (m.facebook && m.facebook !== '---') ? (m.facebook.startsWith('http') ? m.facebook : `https://facebook.com/${m.facebook}`) : null;
                 const fbDisplay = fbUrl ? `<a href="${fbUrl}" target="_blank" class="text-blue-600 font-medium hover:underline">View FB</a>` : '<span class="text-slate-400 text-xs italic">None</span>';
-                
-                // Format the birthDate to MM-DD-YYYY
-                const displayBirth = formatDate(m.birthDate);
+
+                // Apply formatting to the display variable
+                const formattedBirth = formatDateToISO(m.birthDate);
 
                 const row = `
                     <tr class="hover:bg-slate-50 transition-colors text-xs sm:text-sm">
@@ -205,7 +200,7 @@
                             <div class="text-[9px] text-slate-400 uppercase font-bold">${m.sex || '---'} | ${m.civilStatus || 'Single'}</div>
                         </td>
                         <td class="px-4 py-4">
-                            <div class="text-slate-600 text-[11px] font-mono">${displayBirth}</div>
+                            <div class="text-slate-600 text-[11px] font-mono">${formattedBirth}</div>
                             <span class="text-[9px] font-bold px-2 py-0.5 bg-indigo-100 text-indigo-700 rounded-full">${m.age || '0'} YRS</span>
                         </td>
                         <td class="px-4 py-4">
@@ -248,7 +243,7 @@
         }
 
         checkInitialAccess();
-        setInterval(fetchData, 10000);
+        setInterval(fetchData, 15000);
 
         document.getElementById('passcodeInput').addEventListener('keypress', function (e) {
             if (e.key === 'Enter') validateAccess();
