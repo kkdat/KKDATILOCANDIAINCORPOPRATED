@@ -58,10 +58,14 @@
                 </div>
                 <div class="flex flex-col">
                     <span class="text-white font-bold text-sm sm:text-lg truncate max-w-[120px] sm:max-w-none">KKDAT Ilocandia Inc Registry</span>
-                    <span id="liveStatus" class="text-[8px] text-emerald-400 font-bold uppercase tracking-widest animate-pulse">● Live Syncing</span>
+                    <div class="flex items-center gap-2">
+                        <span id="liveStatus" class="text-[8px] text-emerald-400 font-bold uppercase tracking-widest animate-pulse">● Live Syncing</span>
+                        <span id="activeUserDisplay" class="text-[8px] text-indigo-300 font-bold uppercase border-l border-white/20 pl-2">USER: GUEST</span>
+                    </div>
                 </div>
             </div>
             <div class="flex gap-2 sm:gap-4">
+                <button onclick="logout()" class="text-slate-400 hover:text-red-400 text-xs font-medium transition-colors">Logout</button>
                 <button onclick="fetchData()" class="text-indigo-300 hover:text-white text-xs font-medium transition-colors">Refresh</button>
                 <a href="javascript:void(0)" onclick="window.open(SHEET_URL, '_blank')" class="text-white bg-emerald-600 hover:bg-emerald-700 px-3 py-1 rounded text-xs font-medium flex items-center gap-2">
                     <span class="hidden md:inline">View Sheets</span>
@@ -130,7 +134,13 @@
     </div>
 
     <script>
-        const AUTHORIZED_PASSCODES = ["1996-11-06", "PacificLee"];
+        // Updated to Object for Passcode-to-User Mapping
+        const USER_MAP = {
+            "11061996": "VP DARWIN C. AGULLANA",
+            "PacificLee": "PMAJ KRISTIAN LEE G BADUA",
+            "KKDATILOCANDIAINC123": "INPPO PCADU"
+        };
+        
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw39tfv_1JoA5fkzQT0W9W4vK6Vj1qWDbIBVs54lRk6KTRbfsrbT4Wsj5FfKWs0yOqndA/exec";
         const SHEET_URL = "https://docs.google.com/spreadsheets/d/1o98Bj1tqKQOo_xdGNDNNW8h1SS_kTdYyFASBIhaK5ts/edit?usp=sharing";
 
@@ -147,7 +157,6 @@
             return `${yyyy}-${mm}-${dd}`;
         }
 
-        // NEW: Populate the Chapter Filter dropdown dynamically
         function updateChapterFilterOptions(data) {
             const select = document.getElementById('chapterFilter');
             const currentValue = select.value;
@@ -162,13 +171,15 @@
                 select.appendChild(opt);
             });
             
-            // Retain selection if it still exists
             if (chapters.includes(currentValue)) select.value = currentValue;
         }
 
         function checkInitialAccess() {
-            if (sessionStorage.getItem('isAuthorized') === 'true') {
+            const isAuth = sessionStorage.getItem('isAuthorized') === 'true';
+            const user = sessionStorage.getItem('currentUser');
+            if (isAuth && user) {
                 document.getElementById('loginModal').classList.add('hidden');
+                document.getElementById('activeUserDisplay').innerText = `USER: ${user}`;
                 fetchData();
             }
         }
@@ -176,14 +187,25 @@
         function validateAccess() {
             const entry = document.getElementById('passcodeInput').value;
             const errorElement = document.getElementById('errorMsg');
-            if (AUTHORIZED_PASSCODES.includes(entry)) {
+            
+            // Check mapping
+            const identifiedUser = USER_MAP[entry];
+
+            if (identifiedUser) {
                 sessionStorage.setItem('isAuthorized', 'true');
+                sessionStorage.setItem('currentUser', identifiedUser);
                 document.getElementById('loginModal').classList.add('hidden');
+                document.getElementById('activeUserDisplay').innerText = `USER: ${identifiedUser}`;
                 fetchData();
             } else {
                 errorElement.classList.remove('hidden');
                 document.getElementById('passcodeInput').value = '';
             }
+        }
+
+        function logout() {
+            sessionStorage.clear();
+            location.reload();
         }
 
         async function fetchData() {
@@ -245,7 +267,6 @@
             });
         }
 
-        // UPDATED: Filter logic handles both Chapter selection and Search query
         function filterTable() {
             const query = document.getElementById('searchInput').value.toLowerCase();
             const chapter = document.getElementById('chapterFilter').value;
