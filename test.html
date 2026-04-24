@@ -29,28 +29,18 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                     </svg>
                 </div>
-                <h2 class="text-2xl font-bold text-slate-800">System Access</h2>
-                <p class="text-slate-500 text-sm mt-1">Select user and enter passcode</p>
+                <h2 class="text-2xl font-bold text-slate-800">Admin Access</h2>
+                <p class="text-slate-500 text-sm mt-1">Please enter your secret passcode</p>
             </div>
             
             <div class="space-y-4">
                 <div>
-                    <label class="text-[10px] font-bold text-indigo-600 uppercase ml-1">Select User</label>
-                    <select id="usernameInput" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none transition-all bg-slate-50 cursor-pointer">
-                        <option value="VP DARWIN C. AGULLANA">VP DARWIN C. AGULLANA</option>
-                        <option value="PMAJ KRISTIAN LEE G BADUA">PMAJ KRISTIAN LEE G BADUA</option>
-                        <option value="INPPO PCADU">INPPO PCADU</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label class="text-[10px] font-bold text-indigo-600 uppercase ml-1">Passcode</label>
                     <input type="password" id="passcodeInput" placeholder="••••••••" 
-                        class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none transition-all text-center tracking-widest">
+                        class="w-full px-4 py-4 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none transition-all text-center text-xl tracking-[0.5em] font-bold bg-slate-50">
                 </div>
                 
                 <button onclick="validateAccess()" 
-                    class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl shadow-lg shadow-indigo-200 transition-all mt-2">
+                    class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl shadow-lg shadow-indigo-200 transition-all">
                     Unlock Registry
                 </button>
                 
@@ -66,9 +56,9 @@
                     <img src="LOGO.png" alt="Logo" class="w-full h-full object-cover">
                 </div>
                 <div class="flex flex-col">
-                    <span class="text-white font-bold text-sm sm:text-lg truncate max-w-[120px] sm:max-w-none">KKDAT Ilocandia Inc Registry</span>
+                    <span class="text-white font-bold text-sm sm:text-lg">KKDAT Ilocandia Inc</span>
                     <div class="flex items-center gap-2">
-                        <span id="liveStatus" class="text-[8px] text-emerald-400 font-bold uppercase tracking-widest animate-pulse">● Live</span>
+                        <span id="liveStatus" class="text-[8px] text-emerald-400 font-bold uppercase tracking-widest animate-pulse">● Live Monitoring</span>
                         <span id="activeUserDisplay" class="text-[8px] text-indigo-300 font-bold uppercase border-l border-white/20 pl-2">User: Guest</span>
                     </div>
                 </div>
@@ -76,7 +66,7 @@
             <div class="flex gap-2 sm:gap-4">
                 <button onclick="logout()" class="text-slate-400 hover:text-red-400 text-xs font-medium transition-colors">Logout</button>
                 <button onclick="fetchData()" class="text-indigo-300 hover:text-white text-xs font-medium transition-colors">Refresh</button>
-                <a href="index.html" class="bg-indigo-600 text-white px-3 py-1.5 rounded-lg text-xs font-medium">Add</a>
+                <a href="index.html" class="bg-indigo-600 text-white px-3 py-1.5 rounded-lg text-xs font-medium">Add Member</a>
             </div>
         </div>
     </nav>
@@ -84,27 +74,26 @@
     <div class="relative max-w-[98%] mx-auto pt-24 px-2 sm:px-4">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4 px-2">
             <div>
-                <h1 class="text-2xl sm:text-3xl font-bold text-white uppercase tracking-tight">KKDAT Member Database</h1>
-                <p class="text-indigo-200 text-xs sm:text-sm">Monitoring Active Session...</p>
+                <h1 class="text-2xl sm:text-3xl font-bold text-white uppercase tracking-tight">Member Database</h1>
+                <p class="text-indigo-200 text-xs sm:text-sm">Official Records Access</p>
             </div>
             
             <div class="flex flex-wrap items-center gap-3 w-full md:w-auto no-print">
-                <div class="bg-white/10 border border-white/20 rounded-xl px-4 py-2 sm:py-3 flex flex-col justify-center min-w-[100px] shadow-lg">
-                    <span class="text-[10px] text-indigo-300 uppercase font-bold leading-none">Total Members</span>
+                <div class="bg-white/10 border border-white/20 rounded-xl px-4 py-2 sm:py-3 flex flex-col justify-center min-w-[100px]">
+                    <span class="text-[10px] text-indigo-300 uppercase font-bold leading-none">Records</span>
                     <span id="memberCount" class="text-white text-lg font-bold">0</span>
                 </div>
 
                 <div class="relative">
                     <select id="chapterFilter" onchange="filterTable()" 
-                        class="appearance-none bg-white/10 border border-white/20 rounded-xl px-4 py-2 sm:py-3 text-white text-xs font-bold uppercase tracking-wide outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer shadow-lg pr-10">
+                        class="appearance-none bg-white/10 border border-white/20 rounded-xl px-4 py-2 sm:py-3 text-white text-xs font-bold uppercase outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer pr-10">
                         <option value="ALL" class="bg-slate-800 text-white">All Chapters</option>
                     </select>
                 </div>
 
                 <div class="relative w-full md:w-72 lg:w-80">
-                    <input type="text" id="searchInput" placeholder="Search name or address..." 
-                        class="pl-10 pr-4 py-2 sm:py-3 rounded-xl w-full outline-none border-none shadow-xl focus:ring-2 focus:ring-indigo-500 transition-all text-sm" 
-                        onkeyup="filterTable()">
+                    <input type="text" id="searchInput" placeholder="Search name..." 
+                        class="pl-10 pr-4 py-2 sm:py-3 rounded-xl w-full outline-none border-none shadow-xl focus:ring-2 focus:ring-indigo-500 text-sm" onkeyup="filterTable()">
                 </div>
             </div>
         </div>
@@ -114,18 +103,18 @@
                 <table class="w-full text-left border-collapse min-w-[1000px]">
                     <thead>
                         <tr class="bg-slate-50 border-b border-slate-200">
-                            <th class="px-4 py-4 text-[10px] sm:text-xs font-bold text-indigo-600 uppercase">Chapter</th>
-                            <th class="px-4 py-4 text-[10px] sm:text-xs font-bold text-slate-500 uppercase">Name & Sex</th>
-                            <th class="px-4 py-4 text-[10px] sm:text-xs font-bold text-slate-500 uppercase">Birth & Age</th>
-                            <th class="px-4 py-4 text-[10px] sm:text-xs font-bold text-slate-500 uppercase">Contact Info</th>
-                            <th class="px-4 py-4 text-[10px] sm:text-xs font-bold text-slate-500 uppercase">Address</th>
-                            <th class="px-4 py-4 text-[10px] sm:text-xs font-bold text-slate-500 uppercase">Social Media</th>
-                            <th class="px-4 py-4 text-[10px] sm:text-xs font-bold text-slate-500 uppercase">Emergency</th>
-                            <th class="px-4 py-4 text-[10px] sm:text-xs font-bold text-slate-500 uppercase text-center del-col">Del</th>
+                            <th class="px-4 py-4 text-[10px] font-bold text-indigo-600 uppercase">Chapter</th>
+                            <th class="px-4 py-4 text-[10px] font-bold text-slate-500 uppercase">Name & Sex</th>
+                            <th class="px-4 py-4 text-[10px] font-bold text-slate-500 uppercase">Birth & Age</th>
+                            <th class="px-4 py-4 text-[10px] font-bold text-slate-500 uppercase">Contact</th>
+                            <th class="px-4 py-4 text-[10px] font-bold text-slate-500 uppercase">Address</th>
+                            <th class="px-4 py-4 text-[10px] font-bold text-slate-500 uppercase">Socials</th>
+                            <th class="px-4 py-4 text-[10px] font-bold text-slate-500 uppercase">Emergency</th>
+                            <th class="px-4 py-4 text-[10px] font-bold text-slate-500 uppercase text-center del-col">Del</th>
                         </tr>
                     </thead>
                     <tbody id="tableBody" class="divide-y divide-slate-100 bg-white">
-                        <tr><td colspan="8" class="px-6 py-20 text-center"><p class="text-slate-500 animate-pulse text-lg font-medium">Please login to view data...</p></td></tr>
+                        <tr><td colspan="8" class="px-6 py-20 text-center"><p class="text-slate-500 animate-pulse text-lg font-medium">Locked. Waiting for passcode...</p></td></tr>
                     </tbody>
                 </table>
             </div>
@@ -133,14 +122,14 @@
     </div>
 
     <script>
-        const AUTHORIZED_USERS = {
-            "VP DARWIN C. AGULLANA": "11061996",
-            "PMAJ KRISTIAN LEE G BADUA": "PacificLee",
-            "INPPO PCADU": "KKDATILOCANDIAINC123"
+        // PASSCODE CONFIGURATION
+        const USER_KEYS = {
+            "11061996": "VP DARWIN C. AGULLANA",
+            "PacificLee": "PMAJ KRISTIAN LEE G BADUA",
+            "KKDATILOCANDIAINC123": "INPPO PCADU"
         };
 
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw39tfv_1JoA5fkzQT0W9W4vK6Vj1qWDbIBVs54lRk6KTRbfsrbT4Wsj5FfKWs0yOqndA/exec";
-        
         let allMembers = [];
         let isDeleting = false;
 
@@ -155,15 +144,17 @@
         }
 
         function validateAccess() {
-            const user = document.getElementById('usernameInput').value; // Get value from dropdown
             const pass = document.getElementById('passcodeInput').value;
             const errorElement = document.getElementById('errorMsg');
 
-            if (AUTHORIZED_USERS[user] === pass) {
+            // Find the user associated with this passcode
+            const identifiedUser = USER_KEYS[pass];
+
+            if (identifiedUser) {
                 sessionStorage.setItem('isAuthorized', 'true');
-                sessionStorage.setItem('currentUser', user);
+                sessionStorage.setItem('currentUser', identifiedUser);
                 document.getElementById('loginModal').classList.add('hidden');
-                document.getElementById('activeUserDisplay').innerText = `User: ${user}`;
+                document.getElementById('activeUserDisplay').innerText = `User: ${identifiedUser}`;
                 fetchData();
             } else {
                 errorElement.classList.remove('hidden');
@@ -216,23 +207,23 @@
             document.getElementById('memberCount').innerText = data ? data.length : 0;
             tbody.innerHTML = '';
             if (!data || data.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="8" class="px-6 py-20 text-center text-slate-400 text-lg font-medium">No records found.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="8" class="px-6 py-20 text-center text-slate-400 font-medium">No records found.</td></tr>';
                 return;
             }
             data.forEach(m => {
                 const fbUrl = (m.facebook && m.facebook !== '---') ? (m.facebook.startsWith('http') ? m.facebook : `https://facebook.com/${m.facebook}`) : null;
-                const fbDisplay = fbUrl ? `<a href="${fbUrl}" target="_blank" class="text-blue-600 font-medium hover:underline">View FB</a>` : '<span class="text-slate-400 text-xs italic">None</span>';
+                const fbDisplay = fbUrl ? `<a href="${fbUrl}" target="_blank" class="text-blue-600 font-medium hover:underline">View FB</a>` : '<span class="text-slate-400 italic">None</span>';
                 const row = `
                     <tr class="hover:bg-slate-50 transition-colors text-xs sm:text-sm">
                         <td class="px-4 py-4"><span class="px-2 py-1 bg-indigo-50 text-indigo-700 rounded-md font-bold text-[10px] uppercase border border-indigo-100">${m.chapter || 'UNASSIGNED'}</span></td>
-                        <td class="px-4 py-4"><div class="font-bold text-slate-800 uppercase">${m.fullName || '---'}</div><div class="text-[9px] text-slate-400 uppercase font-bold">${m.sex || '---'} | ${m.civilStatus || 'Single'}</div></td>
+                        <td class="px-4 py-4"><div class="font-bold text-slate-800 uppercase">${m.fullName || '---'}</div><div class="text-[9px] text-slate-400 font-bold">${m.sex || '---'} | ${m.civilStatus || 'Single'}</div></td>
                         <td class="px-4 py-4"><div class="text-slate-600 text-[11px] font-mono">${m.birthDate || '---'}</div><span class="text-[9px] font-bold px-2 py-0.5 bg-indigo-100 text-indigo-700 rounded-full">${m.age || '0'} YRS</span></td>
                         <td class="px-4 py-4"><div class="text-slate-800 font-medium text-[11px]">${m.mobileNumber || 'No Phone'}</div><div class="text-slate-500 text-[10px] truncate max-w-[120px]">${m.email || 'No Email'}</div></td>
                         <td class="px-4 py-4"><div class="max-w-[180px] text-slate-600 text-[11px] line-clamp-2 uppercase">${m.address || '---'}</div></td>
                         <td class="px-4 py-4">${fbDisplay}</td>
                         <td class="px-4 py-4"><div class="text-slate-700 font-semibold text-[11px]">${m.contactPerson || '---'}</div></td>
                         <td class="px-4 py-4 text-center del-col">
-                            <button onclick="deleteMember(${m.rowId})" class="text-slate-300 hover:text-red-500 transition-colors p-2">
+                            <button onclick="deleteMember(${m.rowId})" class="text-slate-300 hover:text-red-500 p-2">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
                             </button>
                         </td>
